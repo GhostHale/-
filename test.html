@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <title></title>
+    <style>
+        body{
+            background: url("images/bg.jpg");
+        }
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        #canvas{
+            display: block;
+            margin: 0 auto;
+            background: #ffffff;
+            background: url("images/runway.jpg") top center no-repeat;
+        }
+    </style>
+    <script>
+        function random(num,key)
+        {
+            var r=parseInt(Math.random()*key);
+            var array=[];
+            if(num==0) return array;
+            do {
+                var flag = 1;
+                do
+                {
+                    for (var j = 0; j < array.length; j++) {
+                        if (array[j] == r) {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        array[array.length] = r;
+                    }
+                    else {
+                        r = parseInt(Math.random() * key);
+                    }
+                } while (flag);
+            }while(array.length<num);
+            return array;
+        }
+        function loadImgs(arr,fn)
+        {
+            var json={};
+            var loaded=0;
+            for(var i=0;i<arr.length;i++)
+            {
+                var oImg=new Image();
+                oImg.src='images/'+arr[i];
+                var name= arr[i].split('.')[0];
+                oImg.onload=function()
+                {
+                    loaded++;
+                    if(loaded==arr.length)
+                    {
+                        fn();
+                    }
+                };
+                json[name]= oImg;
+            };
+            return json;
+        }
+        window.onload=function(){
+            var oC=document.getElementById('canvas');
+            var oI=oC.getContext('2d');
+            var arr=['runway.jpg','person.png','chi.png','jita.png','jiuping.png','person.png','pingpang.png','qianbi.png','shouqiang.png','shu.png','yantou.png','yilaguan.png','zuqiu.png'];
+            var way_state=770;
+            var u=0;
+            var x=0;
+            var imgs=loadImgs(arr,function(){
+                console.log('加载成功');
+            });
+            if($(window).height()<=470){
+                oC.height=$(window).height();
+            }
+            function gameStart(imgs,oI){
+                var timer=setInterval(function () {
+                    oI.clearRect(0,0,320,oC.height);
+                    if(way_state>=0){
+                        oI.drawImage(
+                                imgs['runway'],
+                                15,way_state,320,480,
+                                0,0,320,480
+                        );
+                        way_state-=10;
+                    }
+
+                    for(var i=0;i<aP.length;i++){
+                        if(aP[i].x/78==x)
+                        {
+                            if(aP[i].y>=300){
+                                aP.splice(i, 1);
+                                continue;
+                            }
+                        }
+                        oI.drawImage(
+                                imgs[aP[i].name],
+                                aP[i].x,aP[i].y
+                        );
+                        aP[i].y+=1;
+                        if(aP[i].y>=$(window).height())
+                        {
+                            aP.splice(i, 1);
+                        }
+                    }
+                    if(u==1)
+                    {
+                        oI.drawImage(
+                            imgs['person'],
+                            0,111*u,82,111,
+                            78*x,340,82,111
+                        );
+                        u=0;
+                    }
+                    else
+                    {
+                        oI.drawImage(
+                                imgs['person'],
+                                0,111*u,82,111,
+                                78*x,340,82,111
+                        );
+                        u=1;
+                    }
+                },1);
+                document.addEventListener('touchstart', function (ev) {
+                    var oEvent = ev.touches[0] || event.touches[0];
+                    m = oEvent.clientX;
+                    ev.preventDefault();
+                });
+                document.addEventListener('touchend', function (ev) {
+                    var oEvent = ev.changedTouches[0] || event.changedTouches[0];
+                    var n = oEvent.clientX-m;
+                    if (n < 0) {
+                        if(x==0)return;
+                        x--;
+                    }
+                    else
+                    {
+                        if(x==3)return;
+                        x++;
+                    }
+                    ev.preventDefault();
+                });
+                //好东西
+                var aP = [];
+                var num=1;
+                var ap_name = ['chi','jita','pingpang','shu','zuqiu','qianbi'];
+                function gold() {
+                    var random1 = random(num, 4);
+                    var random2 = random(num, 200);
+                    var randon3 = random(num, 6);
+                    for (var i = 0; i < random1.length; i++) {
+                        aP.push({
+                            name: ap_name[randon3[i]],
+                            x: random1[i]*78,
+                            y: -60 - random2[i]
+                        });
+                    }
+                }
+                setInterval(function () {
+                    gold();
+                }, 3000);
+            }
+            gameStart(imgs,oI);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="320" height="480">
+    </canvas>
+</body>
+</html>

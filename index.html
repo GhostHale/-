@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-hans">
+    <meta charset="UTF-8">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>奔跑吧兄弟</title>
+    <script src="js/API.js"></script>
+    <script src="js/normal.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="score_list"><span class="scroe">当前得分<font id="ScoreNum"> 0 </font>分</span><span>当前时间<font id="time"> 0 </font>秒</span></div>
+        <div id="loading">
+            <img src="images/loading.jpg">
+        </div>
+        <div id="begin_web">
+            <img src="images/begin_bg.jpg" id="begin_bg">
+            <p id="btn_list">
+                <input class="btn_normal" type="button" value="开始游戏" id="start"><br><br>
+                <input class="btn_normal" type="button" value="游戏指南" id="tips">
+            </p>
+            <span class="copyright">Ⓒ2014红岩网校</span>
+        </div>
+        <div id="tips_web">
+            <img src="images/tips.jpg" id="tips_img">
+            <p class="tips_btn">
+                <input class="btn_normal" type="button" value="开始游戏" id="tip_start">
+            </p>
+            <span class="copyright">Ⓒ2014红岩网校</span>
+        </div>
+        <canvas id="canvas" style="visibility: hidden;" width="320" height="480">
+        </canvas>
+        <div id="share">
+            <img src="images/share.jpg" id="share_img">
+            <p class="re_line">
+                <input type="button" value="再来一次" id="reload">
+            </p>
+            <p id="Txtinput"><input type="text" placeholder="请输入手机号" id="phone_input"><span id="reply">提交</span></p>
+        </div>
+    </div>
+</body>
+</html>
